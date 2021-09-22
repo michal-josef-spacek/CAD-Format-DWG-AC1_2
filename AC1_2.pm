@@ -465,11 +465,11 @@ sub _read {
     $self->{layer} = $self->{_io}->read_s2le();
     $self->{size} = $self->{_io}->read_s2le();
     $self->{value} = $self->{_io}->read_bytes($self->size());
-    $self->{x1} = $self->{_io}->read_f8le();
-    $self->{y1} = $self->{_io}->read_f8le();
-    $self->{x2} = $self->{_io}->read_f8le();
-    $self->{y2} = $self->{_io}->read_f8le();
-    $self->{z} = $self->{_io}->read_f8le();
+    $self->{x} = $self->{_io}->read_f8le();
+    $self->{y} = $self->{_io}->read_f8le();
+    $self->{x_scale} = $self->{_io}->read_f8le();
+    $self->{y_scale} = $self->{_io}->read_f8le();
+    $self->{rotation_angle} = $self->{_io}->read_f8le();
 }
 
 sub layer {
@@ -487,29 +487,29 @@ sub value {
     return $self->{value};
 }
 
-sub x1 {
+sub x {
     my ($self) = @_;
-    return $self->{x1};
+    return $self->{x};
 }
 
-sub y1 {
+sub y {
     my ($self) = @_;
-    return $self->{y1};
+    return $self->{y};
 }
 
-sub x2 {
+sub x_scale {
     my ($self) = @_;
-    return $self->{x2};
+    return $self->{x_scale};
 }
 
-sub y2 {
+sub y_scale {
     my ($self) = @_;
-    return $self->{y2};
+    return $self->{y_scale};
 }
 
-sub z {
+sub rotation_angle {
     my ($self) = @_;
-    return $self->{z};
+    return $self->{rotation_angle};
 }
 
 ########################################################################
@@ -836,8 +836,7 @@ sub _read {
     my ($self) = @_;
 
     $self->{magic} = $self->{_io}->read_bytes(6);
-    $self->{zeros} = $self->{_io}->read_bytes(5);
-    $self->{unknown1} = $self->{_io}->read_bytes(1);
+    $self->{zeros} = $self->{_io}->read_bytes(6);
     $self->{insertion_base_x} = $self->{_io}->read_f8le();
     $self->{insertion_base_y} = $self->{_io}->read_f8le();
     $self->{insertion_base_z} = $self->{_io}->read_f8le();
@@ -845,37 +844,37 @@ sub _read {
     $self->{number_of_entities} = $self->{_io}->read_s2le();
     $self->{drawing_first_x} = $self->{_io}->read_f8le();
     $self->{drawing_first_y} = $self->{_io}->read_f8le();
-    $self->{unknown3} = $self->{_io}->read_f8le();
+    $self->{drawing_first_z} = $self->{_io}->read_f8le();
     $self->{drawing_second_x} = $self->{_io}->read_f8le();
     $self->{drawing_second_y} = $self->{_io}->read_f8le();
-    $self->{unknown4} = $self->{_io}->read_f8le();
+    $self->{drawing_second_z} = $self->{_io}->read_f8le();
     $self->{limits_min_x} = $self->{_io}->read_f8le();
     $self->{limits_min_y} = $self->{_io}->read_f8le();
     $self->{limits_max_x} = $self->{_io}->read_f8le();
     $self->{limits_max_y} = $self->{_io}->read_f8le();
-    $self->{dwgview1} = $self->{_io}->read_f8le();
-    $self->{dwgview2} = $self->{_io}->read_f8le();
-    $self->{unknown5} = $self->{_io}->read_f8le();
-    $self->{dwgview3} = $self->{_io}->read_f8le();
+    $self->{view_ctrl_x} = $self->{_io}->read_f8le();
+    $self->{view_ctrl_y} = $self->{_io}->read_f8le();
+    $self->{view_ctrl_z} = $self->{_io}->read_f8le();
+    $self->{view_size} = $self->{_io}->read_f8le();
     $self->{snap} = $self->{_io}->read_s2le();
     $self->{snap_resolution} = $self->{_io}->read_f8le();
     $self->{grid} = $self->{_io}->read_s2le();
-    $self->{grid_value} = $self->{_io}->read_f8le();
+    $self->{grid_unit} = $self->{_io}->read_f8le();
     $self->{ortho} = $self->{_io}->read_s2le();
-    $self->{unknown6} = $self->{_io}->read_bytes(2);
+    $self->{unknown1} = $self->{_io}->read_bytes(2);
     $self->{fill} = $self->{_io}->read_s2le();
     $self->{text_size} = $self->{_io}->read_f8le();
     $self->{trace_width} = $self->{_io}->read_f8le();
     $self->{actual_layer} = $self->{_io}->read_s2le();
     $self->{actual_color} = $self->{_io}->read_s2le();
-    $self->{unknown9} = $self->{_io}->read_bytes(2);
+    $self->{unknown2} = $self->{_io}->read_bytes(2);
     $self->{layers} = ();
     my $n_layers = 127;
     for (my $i = 0; $i < $n_layers; $i++) {
         $self->{layers}[$i] = $self->{_io}->read_s2le();
     }
-    $self->{unknown10} = $self->{_io}->read_f8le();
-    $self->{unknown11} = $self->{_io}->read_f8le();
+    $self->{dim_arrowsize} = $self->{_io}->read_f8le();
+    $self->{unknown3} = $self->{_io}->read_f8le();
 }
 
 sub magic {
@@ -886,11 +885,6 @@ sub magic {
 sub zeros {
     my ($self) = @_;
     return $self->{zeros};
-}
-
-sub unknown1 {
-    my ($self) = @_;
-    return $self->{unknown1};
 }
 
 sub insertion_base_x {
@@ -928,9 +922,9 @@ sub drawing_first_y {
     return $self->{drawing_first_y};
 }
 
-sub unknown3 {
+sub drawing_first_z {
     my ($self) = @_;
-    return $self->{unknown3};
+    return $self->{drawing_first_z};
 }
 
 sub drawing_second_x {
@@ -943,9 +937,9 @@ sub drawing_second_y {
     return $self->{drawing_second_y};
 }
 
-sub unknown4 {
+sub drawing_second_z {
     my ($self) = @_;
-    return $self->{unknown4};
+    return $self->{drawing_second_z};
 }
 
 sub limits_min_x {
@@ -968,24 +962,24 @@ sub limits_max_y {
     return $self->{limits_max_y};
 }
 
-sub dwgview1 {
+sub view_ctrl_x {
     my ($self) = @_;
-    return $self->{dwgview1};
+    return $self->{view_ctrl_x};
 }
 
-sub dwgview2 {
+sub view_ctrl_y {
     my ($self) = @_;
-    return $self->{dwgview2};
+    return $self->{view_ctrl_y};
 }
 
-sub unknown5 {
+sub view_ctrl_z {
     my ($self) = @_;
-    return $self->{unknown5};
+    return $self->{view_ctrl_z};
 }
 
-sub dwgview3 {
+sub view_size {
     my ($self) = @_;
-    return $self->{dwgview3};
+    return $self->{view_size};
 }
 
 sub snap {
@@ -1003,9 +997,9 @@ sub grid {
     return $self->{grid};
 }
 
-sub grid_value {
+sub grid_unit {
     my ($self) = @_;
-    return $self->{grid_value};
+    return $self->{grid_unit};
 }
 
 sub ortho {
@@ -1013,9 +1007,9 @@ sub ortho {
     return $self->{ortho};
 }
 
-sub unknown6 {
+sub unknown1 {
     my ($self) = @_;
-    return $self->{unknown6};
+    return $self->{unknown1};
 }
 
 sub fill {
@@ -1043,9 +1037,9 @@ sub actual_color {
     return $self->{actual_color};
 }
 
-sub unknown9 {
+sub unknown2 {
     my ($self) = @_;
-    return $self->{unknown9};
+    return $self->{unknown2};
 }
 
 sub layers {
@@ -1053,14 +1047,14 @@ sub layers {
     return $self->{layers};
 }
 
-sub unknown10 {
+sub dim_arrowsize {
     my ($self) = @_;
-    return $self->{unknown10};
+    return $self->{dim_arrowsize};
 }
 
-sub unknown11 {
+sub unknown3 {
     my ($self) = @_;
-    return $self->{unknown11};
+    return $self->{unknown3};
 }
 
 ########################################################################

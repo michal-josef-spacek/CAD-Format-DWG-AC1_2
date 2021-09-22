@@ -27,9 +27,7 @@ types:
       - id: magic
         contents: [0x41, 0x43, 0x31, 0x2e, 0x32, 0x00]
       - id: zeros
-        size: 5
-      - id: unknown1
-        size: 1
+        size: 6
       - id: insertion_base_x
         type: f8
         doc: 0x000c-0x0013
@@ -38,6 +36,7 @@ types:
         doc: 0x0014-0x001b
       - id: insertion_base_z
         type: f8
+        doc: 0x001c-0x0023
       - id: number_of_bytes
         type: s4
       - id: number_of_entities
@@ -47,13 +46,13 @@ types:
         type: f8
       - id: drawing_first_y
         type: f8
-      - id: unknown3
+      - id: drawing_first_z
         type: f8
       - id: drawing_second_x
         type: f8
       - id: drawing_second_y
         type: f8
-      - id: unknown4
+      - id: drawing_second_z
         type: f8
       - id: limits_min_x
         type: f8
@@ -67,13 +66,13 @@ types:
       - id: limits_max_y
         type: f8
         doc: 0x0072-0x0079
-      - id: dwgview1
+      - id: view_ctrl_x
         type: f8
-      - id: dwgview2
+      - id: view_ctrl_y
         type: f8
-      - id: unknown5
+      - id: view_ctrl_z
         type: f8
-      - id: dwgview3
+      - id: view_size
         type: f8
       - id: snap
         type: s2
@@ -84,13 +83,13 @@ types:
       - id: grid
         type: s2
         doc: 0x00a4-0x00a5
-      - id: grid_value
+      - id: grid_unit
         type: f8
         doc: 0x00a6-0x00ad
       - id: ortho
         type: s2
         doc: 0x00ae-0x00af
-      - id: unknown6
+      - id: unknown1
         size: 2
         doc: XXX could be ffff
       - id: fill
@@ -106,15 +105,15 @@ types:
       - id: actual_color
         type: s2
         doc: 0x00c6-0x00c7
-      - id: unknown9
+      - id: unknown2
         size: 2
       - id: layers
         type: s2
         repeat: expr
         repeat-expr: 127
-      - id: unknown10
+      - id: dim_arrowsize
         type: f8
-      - id: unknown11
+      - id: unknown3
         type: f8
   entity:
     seq:
@@ -139,7 +138,7 @@ types:
             'entities::solid': entity_solid
             'entities::text': entity_text
             'entities::trace': entity_trace
-            '_': entity_tmp
+            _: entity_tmp
   entity_arc:
     seq:
       - id: layer
@@ -178,16 +177,15 @@ types:
         type: s2
       - id: value
         size: size
-      - id: x1
+      - id: x
         type: f8
-      - id: y1
+      - id: y
         type: f8
-      - id: x2
+      - id: x_scale
         type: f8
-      - id: y2
+      - id: y_scale
         type: f8
-      ## TODO Co to je?
-      - id: z
+      - id: rotation_angle
         type: f8
   entity_circle:
     seq:
@@ -287,10 +285,8 @@ types:
         type: f8
       - id: height
         type: f8
-        doc: TODO right?
       - id: angle
         type: f8
-        doc: TODO right?
       - id: size
         type: s2
       - id: value
