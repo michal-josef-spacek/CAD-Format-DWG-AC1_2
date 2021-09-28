@@ -1,8 +1,12 @@
 TODO
 ====
-2.
+3.
 
 Applied
 =======
 1. Prejmenovat na AC1.2
 OK [20210922] skim
+
+2. Zpracovat tmp entity
+Vypada, ze zaporne cislo -14 je tmp insert
+OK [20210928] skim
