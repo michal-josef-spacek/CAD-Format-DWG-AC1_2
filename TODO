@@ -1,7 +1,6 @@
 TODO
 ====
 3. Testy pro tmp entity
-5. Move convert.sh to Makefile.PL
 6.
 
 Applied
@@ -15,3 +14,6 @@ OK [20210928] skim
 
 4. Documentation
 OK [20210929] skim
+
+5. Move convert.sh to Makefile.PL
+OK [20210930] skim
