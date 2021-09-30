@@ -1,7 +1,8 @@
 TODO
 ====
 3. Testy pro tmp entity
-5.
+5. Move convert.sh to Makefile.PL
+6.
 
 Applied
 =======
