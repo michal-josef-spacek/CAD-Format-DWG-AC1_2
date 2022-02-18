@@ -922,14 +922,14 @@ sub _read {
     $self->{trace_width} = $self->{_io}->read_f8le();
     $self->{current_layer} = $self->{_io}->read_s2le();
     $self->{current_color} = $self->{_io}->read_s2le();
-    $self->{unknown2} = $self->{_io}->read_s2le();
+    $self->{unknown1} = $self->{_io}->read_s2le();
     $self->{layers} = ();
     my $n_layers = 127;
     for (my $i = 0; $i < $n_layers; $i++) {
         $self->{layers}[$i] = $self->{_io}->read_s2le();
     }
     $self->{dim_arrowsize} = $self->{_io}->read_f8le();
-    $self->{unknown3} = $self->{_io}->read_f8le();
+    $self->{unknown2} = $self->{_io}->read_f8le();
 }
 
 sub magic {
@@ -1042,9 +1042,9 @@ sub current_color {
     return $self->{current_color};
 }
 
-sub unknown2 {
+sub unknown1 {
     my ($self) = @_;
-    return $self->{unknown2};
+    return $self->{unknown1};
 }
 
 sub layers {
@@ -1057,9 +1057,9 @@ sub dim_arrowsize {
     return $self->{dim_arrowsize};
 }
 
-sub unknown3 {
+sub unknown2 {
     my ($self) = @_;
-    return $self->{unknown3};
+    return $self->{unknown2};
 }
 
 ########################################################################

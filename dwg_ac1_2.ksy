@@ -81,7 +81,7 @@ types:
       - id: current_color
         type: s2
         doc: 0x00c6-0x00c7
-      - id: unknown2
+      - id: unknown1
         type: s2
       - id: layers
         type: s2
@@ -89,7 +89,7 @@ types:
         repeat-expr: 127
       - id: dim_arrowsize
         type: f8
-      - id: unknown3
+      - id: unknown2
         type: f8
   entity:
     seq:
