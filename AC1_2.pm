@@ -928,7 +928,7 @@ sub _read {
         $self->{layers}[$i] = $self->{_io}->read_s2le();
     }
     $self->{dim_arrowsize} = $self->{_io}->read_f8le();
-    $self->{unknown2} = $self->{_io}->read_f8le();
+    $self->{unknown1} = $self->{_io}->read_f8le();
 }
 
 sub magic {
@@ -1051,9 +1051,9 @@ sub dim_arrowsize {
     return $self->{dim_arrowsize};
 }
 
-sub unknown2 {
+sub unknown1 {
     my ($self) = @_;
-    return $self->{unknown2};
+    return $self->{unknown1};
 }
 
 ########################################################################
