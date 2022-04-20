@@ -82,44 +82,6 @@ sub entities {
 }
 
 ########################################################################
-package CAD::Format::DWG::AC1_2::EntityRepeatBegin;
-
-our @ISA = 'IO::KaitaiStruct::Struct';
-
-sub from_file {
-    my ($class, $filename) = @_;
-    my $fd;
-
-    open($fd, '<', $filename) or return undef;
-    binmode($fd);
-    return new($class, IO::KaitaiStruct::Stream->new($fd));
-}
-
-sub new {
-    my ($class, $_io, $_parent, $_root) = @_;
-    my $self = IO::KaitaiStruct::Struct->new($_io);
-
-    bless $self, $class;
-    $self->{_parent} = $_parent;
-    $self->{_root} = $_root || $self;;
-
-    $self->_read();
-
-    return $self;
-}
-
-sub _read {
-    my ($self) = @_;
-
-    $self->{layer} = $self->{_io}->read_s2le();
-}
-
-sub layer {
-    my ($self) = @_;
-    return $self->{layer};
-}
-
-########################################################################
 package CAD::Format::DWG::AC1_2::EntitySolid;
 
 our @ISA = 'IO::KaitaiStruct::Struct';
@@ -149,7 +111,6 @@ sub new {
 sub _read {
     my ($self) = @_;
 
-    $self->{layer} = $self->{_io}->read_s2le();
     $self->{from_x} = $self->{_io}->read_f8le();
     $self->{from_y} = $self->{_io}->read_f8le();
     $self->{from_and_x} = $self->{_io}->read_f8le();
@@ -158,11 +119,6 @@ sub _read {
     $self->{to_y} = $self->{_io}->read_f8le();
     $self->{to_and_x} = $self->{_io}->read_f8le();
     $self->{to_and_y} = $self->{_io}->read_f8le();
-}
-
-sub layer {
-    my ($self) = @_;
-    return $self->{layer};
 }
 
 sub from_x {
@@ -203,6 +159,62 @@ sub to_and_x {
 sub to_and_y {
     my ($self) = @_;
     return $self->{to_and_y};
+}
+
+########################################################################
+package CAD::Format::DWG::AC1_2::EntityCommon;
+
+our @ISA = 'IO::KaitaiStruct::Struct';
+
+sub from_file {
+    my ($class, $filename) = @_;
+    my $fd;
+
+    open($fd, '<', $filename) or return undef;
+    binmode($fd);
+    return new($class, IO::KaitaiStruct::Stream->new($fd));
+}
+
+sub new {
+    my ($class, $_io, $_parent, $_root) = @_;
+    my $self = IO::KaitaiStruct::Struct->new($_io);
+
+    bless $self, $class;
+    $self->{_parent} = $_parent;
+    $self->{_root} = $_root || $self;;
+
+    $self->_read();
+
+    return $self;
+}
+
+sub _read {
+    my ($self) = @_;
+
+    $self->{entity_type} = $self->{_io}->read_s1();
+    $self->{flag} = $self->{_io}->read_s1();
+    $self->{layer} = $self->{_io}->read_s1();
+    $self->{flag2} = $self->{_io}->read_s1();
+}
+
+sub entity_type {
+    my ($self) = @_;
+    return $self->{entity_type};
+}
+
+sub flag {
+    my ($self) = @_;
+    return $self->{flag};
+}
+
+sub layer {
+    my ($self) = @_;
+    return $self->{layer};
+}
+
+sub flag2 {
+    my ($self) = @_;
+    return $self->{flag2};
 }
 
 ########################################################################
@@ -253,44 +265,6 @@ sub y {
 sub z {
     my ($self) = @_;
     return $self->{z};
-}
-
-########################################################################
-package CAD::Format::DWG::AC1_2::EntityBlockEnd;
-
-our @ISA = 'IO::KaitaiStruct::Struct';
-
-sub from_file {
-    my ($class, $filename) = @_;
-    my $fd;
-
-    open($fd, '<', $filename) or return undef;
-    binmode($fd);
-    return new($class, IO::KaitaiStruct::Stream->new($fd));
-}
-
-sub new {
-    my ($class, $_io, $_parent, $_root) = @_;
-    my $self = IO::KaitaiStruct::Struct->new($_io);
-
-    bless $self, $class;
-    $self->{_parent} = $_parent;
-    $self->{_root} = $_root || $self;;
-
-    $self->_read();
-
-    return $self;
-}
-
-sub _read {
-    my ($self) = @_;
-
-    $self->{layer} = $self->{_io}->read_s2le();
-}
-
-sub layer {
-    my ($self) = @_;
-    return $self->{layer};
 }
 
 ########################################################################
@@ -367,14 +341,8 @@ sub new {
 sub _read {
     my ($self) = @_;
 
-    $self->{layer} = $self->{_io}->read_s2le();
     $self->{x} = $self->{_io}->read_f8le();
     $self->{y} = $self->{_io}->read_f8le();
-}
-
-sub layer {
-    my ($self) = @_;
-    return $self->{layer};
 }
 
 sub x {
@@ -417,7 +385,6 @@ sub new {
 sub _read {
     my ($self) = @_;
 
-    $self->{layer} = $self->{_io}->read_s2le();
     $self->{from_x} = $self->{_io}->read_f8le();
     $self->{from_y} = $self->{_io}->read_f8le();
     $self->{from_and_x} = $self->{_io}->read_f8le();
@@ -426,11 +393,6 @@ sub _read {
     $self->{to_y} = $self->{_io}->read_f8le();
     $self->{to_and_x} = $self->{_io}->read_f8le();
     $self->{to_and_y} = $self->{_io}->read_f8le();
-}
-
-sub layer {
-    my ($self) = @_;
-    return $self->{layer};
 }
 
 sub from_x {
@@ -503,7 +465,6 @@ sub new {
 sub _read {
     my ($self) = @_;
 
-    $self->{layer} = $self->{_io}->read_s2le();
     $self->{size} = $self->{_io}->read_s2le();
     $self->{value} = $self->{_io}->read_bytes($self->size());
     $self->{x} = $self->{_io}->read_f8le();
@@ -511,11 +472,6 @@ sub _read {
     $self->{x_scale} = $self->{_io}->read_f8le();
     $self->{y_scale} = $self->{_io}->read_f8le();
     $self->{rotation_angle} = $self->{_io}->read_f8le();
-}
-
-sub layer {
-    my ($self) = @_;
-    return $self->{layer};
 }
 
 sub size {
@@ -583,18 +539,12 @@ sub new {
 sub _read {
     my ($self) = @_;
 
-    $self->{layer} = $self->{_io}->read_s2le();
     $self->{x} = $self->{_io}->read_f8le();
     $self->{y} = $self->{_io}->read_f8le();
     $self->{height} = $self->{_io}->read_f8le();
     $self->{angle} = $self->{_io}->read_f8le();
     $self->{size} = $self->{_io}->read_s2le();
     $self->{value} = $self->{_io}->read_bytes($self->size());
-}
-
-sub layer {
-    my ($self) = @_;
-    return $self->{layer};
 }
 
 sub x {
@@ -657,16 +607,10 @@ sub new {
 sub _read {
     my ($self) = @_;
 
-    $self->{layer} = $self->{_io}->read_s2le();
     $self->{size} = $self->{_io}->read_s2le();
     $self->{value} = $self->{_io}->read_bytes($self->size());
     $self->{x} = $self->{_io}->read_f8le();
     $self->{y} = $self->{_io}->read_f8le();
-}
-
-sub layer {
-    my ($self) = @_;
-    return $self->{layer};
 }
 
 sub size {
@@ -719,17 +663,11 @@ sub new {
 sub _read {
     my ($self) = @_;
 
-    $self->{layer} = $self->{_io}->read_s2le();
     $self->{x} = $self->{_io}->read_f8le();
     $self->{y} = $self->{_io}->read_f8le();
     $self->{radius} = $self->{_io}->read_f8le();
     $self->{angle_from} = $self->{_io}->read_f8le();
     $self->{angle_to} = $self->{_io}->read_f8le();
-}
-
-sub layer {
-    my ($self) = @_;
-    return $self->{layer};
 }
 
 sub x {
@@ -787,8 +725,8 @@ sub new {
 sub _read {
     my ($self) = @_;
 
-    $self->{entity_type} = $self->{_io}->read_s2le();
-    my $_on = $self->entity_type();
+    $self->{entity_common} = CAD::Format::DWG::AC1_2::EntityCommon->new($self->{_io}, $self, $self->{_root});
+    my $_on = $self->entity_common()->entity_type();
     if ($_on == $CAD::Format::DWG::AC1_2::ENTITIES_SOLID) {
         $self->{data} = CAD::Format::DWG::AC1_2::EntitySolid->new($self->{_io}, $self, $self->{_root});
     }
@@ -800,9 +738,6 @@ sub _read {
     }
     elsif ($_on == $CAD::Format::DWG::AC1_2::ENTITIES_TMP_CIRCLE) {
         $self->{data} = CAD::Format::DWG::AC1_2::EntityCircle->new($self->{_io}, $self, $self->{_root});
-    }
-    elsif ($_on == $CAD::Format::DWG::AC1_2::ENTITIES_REPEAT_BEGIN) {
-        $self->{data} = CAD::Format::DWG::AC1_2::EntityRepeatBegin->new($self->{_io}, $self, $self->{_root});
     }
     elsif ($_on == $CAD::Format::DWG::AC1_2::ENTITIES_TMP_TRACE) {
         $self->{data} = CAD::Format::DWG::AC1_2::EntityTrace->new($self->{_io}, $self, $self->{_root});
@@ -846,9 +781,6 @@ sub _read {
     elsif ($_on == $CAD::Format::DWG::AC1_2::ENTITIES_TMP_BLOCK_INSERT) {
         $self->{data} = CAD::Format::DWG::AC1_2::EntityBlockInsert->new($self->{_io}, $self, $self->{_root});
     }
-    elsif ($_on == $CAD::Format::DWG::AC1_2::ENTITIES_BLOCK_END) {
-        $self->{data} = CAD::Format::DWG::AC1_2::EntityBlockEnd->new($self->{_io}, $self, $self->{_root});
-    }
     elsif ($_on == $CAD::Format::DWG::AC1_2::ENTITIES_POINT) {
         $self->{data} = CAD::Format::DWG::AC1_2::EntityPoint->new($self->{_io}, $self, $self->{_root});
     }
@@ -860,9 +792,9 @@ sub _read {
     }
 }
 
-sub entity_type {
+sub entity_common {
     my ($self) = @_;
-    return $self->{entity_type};
+    return $self->{entity_common};
 }
 
 sub data {
@@ -1086,15 +1018,9 @@ sub new {
 sub _read {
     my ($self) = @_;
 
-    $self->{layer} = $self->{_io}->read_s2le();
     $self->{x} = $self->{_io}->read_f8le();
     $self->{y} = $self->{_io}->read_f8le();
     $self->{radius} = $self->{_io}->read_f8le();
-}
-
-sub layer {
-    my ($self) = @_;
-    return $self->{layer};
 }
 
 sub x {
@@ -1142,17 +1068,11 @@ sub new {
 sub _read {
     my ($self) = @_;
 
-    $self->{layer} = $self->{_io}->read_s2le();
     $self->{x} = $self->{_io}->read_f8le();
     $self->{y} = $self->{_io}->read_f8le();
     $self->{height} = $self->{_io}->read_f8le();
     $self->{angle} = $self->{_io}->read_f8le();
     $self->{item_num} = $self->{_io}->read_s2le();
-}
-
-sub layer {
-    my ($self) = @_;
-    return $self->{layer};
 }
 
 sub x {
@@ -1210,16 +1130,10 @@ sub new {
 sub _read {
     my ($self) = @_;
 
-    $self->{layer} = $self->{_io}->read_s2le();
     $self->{x1} = $self->{_io}->read_f8le();
     $self->{y1} = $self->{_io}->read_f8le();
     $self->{x2} = $self->{_io}->read_f8le();
     $self->{y2} = $self->{_io}->read_f8le();
-}
-
-sub layer {
-    my ($self) = @_;
-    return $self->{layer};
 }
 
 sub x1 {
@@ -1272,16 +1186,10 @@ sub new {
 sub _read {
     my ($self) = @_;
 
-    $self->{layer} = $self->{_io}->read_s2le();
     $self->{columns} = $self->{_io}->read_s2le();
     $self->{rows} = $self->{_io}->read_s2le();
     $self->{column_distance} = $self->{_io}->read_f8le();
     $self->{row_distance} = $self->{_io}->read_f8le();
-}
-
-sub layer {
-    my ($self) = @_;
-    return $self->{layer};
 }
 
 sub columns {
@@ -1334,14 +1242,8 @@ sub new {
 sub _read {
     my ($self) = @_;
 
-    $self->{layer} = $self->{_io}->read_s2le();
     $self->{size} = $self->{_io}->read_s2le();
     $self->{value} = $self->{_io}->read_bytes($self->size());
-}
-
-sub layer {
-    my ($self) = @_;
-    return $self->{layer};
 }
 
 sub size {
