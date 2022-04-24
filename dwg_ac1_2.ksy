@@ -152,6 +152,9 @@ types:
         type: s2
       - id: name
         size: name_size
+        type: str
+        encoding: ASCII
+        terminator: 0x00
       - id: x
         type: f8
       - id: y
@@ -162,6 +165,9 @@ types:
         type: s2
       - id: value
         size: size
+        type: str
+        encoding: ASCII
+        terminator: 0x00
       - id: x
         type: f8
       - id: y
@@ -196,6 +202,9 @@ types:
         type: s2
       - id: value
         size: size
+        type: str
+        encoding: ASCII
+        terminator: 0x00
   entity_point:
     seq:
       - id: x
@@ -256,6 +265,9 @@ types:
         type: s2
       - id: value
         size: size
+        type: str
+        encoding: ASCII
+        terminator: 0x00
   entity_trace:
     seq:
       - id: from_x

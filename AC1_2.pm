@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 use IO::KaitaiStruct 0.009_000;
+use Encode;
 
 ########################################################################
 package CAD::Format::DWG::AC1_2;
@@ -466,7 +467,7 @@ sub _read {
     my ($self) = @_;
 
     $self->{size} = $self->{_io}->read_s2le();
-    $self->{value} = $self->{_io}->read_bytes($self->size());
+    $self->{value} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes($self->size()), 0, 0));
     $self->{x} = $self->{_io}->read_f8le();
     $self->{y} = $self->{_io}->read_f8le();
     $self->{x_scale} = $self->{_io}->read_f8le();
@@ -544,7 +545,7 @@ sub _read {
     $self->{height} = $self->{_io}->read_f8le();
     $self->{angle} = $self->{_io}->read_f8le();
     $self->{size} = $self->{_io}->read_s2le();
-    $self->{value} = $self->{_io}->read_bytes($self->size());
+    $self->{value} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes($self->size()), 0, 0));
 }
 
 sub x {
@@ -608,7 +609,7 @@ sub _read {
     my ($self) = @_;
 
     $self->{name_size} = $self->{_io}->read_s2le();
-    $self->{name} = $self->{_io}->read_bytes($self->name_size());
+    $self->{name} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes($self->name_size()), 0, 0));
     $self->{x} = $self->{_io}->read_f8le();
     $self->{y} = $self->{_io}->read_f8le();
 }
@@ -1243,7 +1244,7 @@ sub _read {
     my ($self) = @_;
 
     $self->{size} = $self->{_io}->read_s2le();
-    $self->{value} = $self->{_io}->read_bytes($self->size());
+    $self->{value} = Encode::decode("ASCII", IO::KaitaiStruct::Stream::bytes_terminate($self->{_io}->read_bytes($self->size()), 0, 0));
 }
 
 sub size {
