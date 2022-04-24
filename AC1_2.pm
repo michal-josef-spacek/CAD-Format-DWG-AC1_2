@@ -607,20 +607,20 @@ sub new {
 sub _read {
     my ($self) = @_;
 
-    $self->{size} = $self->{_io}->read_s2le();
-    $self->{value} = $self->{_io}->read_bytes($self->size());
+    $self->{name_size} = $self->{_io}->read_s2le();
+    $self->{name} = $self->{_io}->read_bytes($self->name_size());
     $self->{x} = $self->{_io}->read_f8le();
     $self->{y} = $self->{_io}->read_f8le();
 }
 
-sub size {
+sub name_size {
     my ($self) = @_;
-    return $self->{size};
+    return $self->{name_size};
 }
 
-sub value {
+sub name {
     my ($self) = @_;
-    return $self->{value};
+    return $self->{name};
 }
 
 sub x {

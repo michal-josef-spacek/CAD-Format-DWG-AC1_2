@@ -148,10 +148,10 @@ types:
         type: f8
   entity_block_begin:
     seq:
-      - id: size
+      - id: name_size
         type: s2
-      - id: value
-        size: size
+      - id: name
+        size: name_size
       - id: x
         type: f8
       - id: y
