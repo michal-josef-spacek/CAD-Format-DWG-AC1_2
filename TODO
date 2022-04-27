@@ -3,7 +3,6 @@ TODO
 3. Testy pro tmp entity
 Need test data.
 6. Is there a method how to create dwg files?
-8. Rename trace point to corner1..4 as libredwg.
 9.
 
 Applied
@@ -23,3 +22,6 @@ OK [20210930] skim
 
 7. Rename solid points to corner1..4 as libredwg
 OK [20220427] skim
+
+8. Rename trace point to corner1..4 as libredwg.
+OK [20220428] skim
