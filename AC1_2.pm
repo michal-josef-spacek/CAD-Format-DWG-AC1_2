@@ -140,7 +140,7 @@ sub _read {
         $self->{layers}[$i] = $self->{_io}->read_s2le();
     }
     $self->{dim_arrowsize} = $self->{_io}->read_f8le();
-    $self->{unknown1} = $self->{_io}->read_f8le();
+    $self->{unknown1} = $self->{_io}->read_bytes(8);
 }
 
 sub magic {
