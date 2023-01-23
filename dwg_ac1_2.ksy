@@ -89,7 +89,7 @@ types:
       - id: dim_arrowsize
         type: f8
         doc: 0x01c8-0x01cf
-      - id: unknown1
+      - id: aspect_ratio
         size: 8
         doc: 0x01d0-0x01d7
   entity:
