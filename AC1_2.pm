@@ -140,7 +140,7 @@ sub _read {
         push @{$self->{layers}}, $self->{_io}->read_s2le();
     }
     $self->{dim_arrowsize} = $self->{_io}->read_f8le();
-    $self->{aspect_ratio} = $self->{_io}->read_bytes(8);
+    $self->{aspect_ratio} = $self->{_io}->read_f8le();
 }
 
 sub magic {

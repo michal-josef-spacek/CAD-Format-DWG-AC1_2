@@ -90,7 +90,7 @@ types:
         type: f8
         doc: 0x01c8-0x01cf
       - id: aspect_ratio
-        size: 8
+        type: f8
         doc: 0x01d0-0x01d7
   entity:
     seq:
